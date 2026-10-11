@@ -55,6 +55,7 @@ class Repo(unittest.TestCase):
             "One reverse-engineers the app you want to clone. One rebuilds it. One tests it "
             "for bugs. And one is the Entrepreneur: it reads what the app's users hate and "
             "fixes it in yours, so you have an app you can sell.",
+            "npx skills add https://github.com/leoforti/ai-skill -g",
             "/plugin marketplace add Jakeschincariol/replica-skill",
             "/plugin install replica-skill@replica-skill",
             "## Fine print",

@@ -28,10 +28,26 @@ fine print is at the bottom, and the skills enforce it.
 
 ### Freebuff
 
-The client discovers a skill from a folder named `<skill>/SKILL.md`, at
-`<project>/.agents/skills/` or `<project>/.claude/skills/` for one project, and
-`~/.agents/skills/` or `~/.claude/skills/` for every project. The Discover tab
-installs into `~/.agents/skills/` too, so that is what this script uses:
+A skill is a folder with a `SKILL.md` in it and its templates and Python tools
+beside it. Freebuff reads those folders from `<project>/.agents/skills/` or
+`<project>/.claude/skills/` for the project it is working in, and from
+`~/.agents/skills/` or `~/.claude/skills/` for every project (`.agents` wins
+where both hold the same name).
+
+With the skills CLI, from anywhere:
+
+```bash
+npx skills add https://github.com/leoforti/ai-skill -g     # all twelve, every project
+npx skills add leoforti/ai-skill --skill replica-pack      # one skill, this project
+npx skills use leoforti/ai-skill@replica-pack              # print one as a prompt, install nothing
+```
+
+`-g` puts the pack in `~/.agents/skills/` and, as the CLI does for every agent
+it knows, in the other agent directories too. Without `-g` it lands in
+`./.agents/skills/` and the CLI writes a `skills-lock.json`, so
+`npx skills update` works later.
+
+Without Node, or when you want to touch only `~/.agents/skills/`:
 
 ```bash
 git clone https://github.com/leoforti/ai-skill.git
@@ -42,13 +58,14 @@ python install.py --dry-run       # what it would copy, copy nothing
 python install.py --remove        # take it back out
 ```
 
-Skills are read when a thread starts: open a new thread (or restart the client)
-and the pack is there. Settings - Skills also takes a skill by hand (Name,
-Description, Instructions); the limits are a name matching
+Freebuff reads skills when a thread starts: open a new thread (or restart the
+client) and the pack is there. The Discover tab searches the skills.sh
+directory, not a URL, so it only offers what that directory has indexed; this
+pack arrives in the folders above instead. Settings - Skills takes a skill by
+hand as well (Name, Description, Instructions; the limits are a name matching
 `^[a-z0-9][a-z0-9-]{0,63}$`, a description of at most 1000 characters and
-instructions of at most 50000. A skill created that way has no sibling files,
-so paste the templates it needs into the instructions, or use the installer
-above and keep them as files.
+instructions of at most 50000), and a skill created that way has no sibling
+files, so paste the templates it needs into the instructions.
 
 Run the tools with `python` on Windows and `python3` on macOS and Linux:
 
@@ -266,7 +283,15 @@ Freebuff non ha gli slash command: una skill si chiama per nome, e il client la
 trova dalla cartella in cui sta. Ogni cartella `replica-*/` di questo repo è
 una skill intera: `SKILL.md` più i suoi template e i suoi tool.
 
-Installazione, la via più corta:
+Installazione, con il CLI ufficiale delle skill (serve Node):
+
+```bash
+npx skills add https://github.com/leoforti/ai-skill -g    # dodici skill, per tutti i progetti
+npx skills add leoforti/ai-skill --skill replica-pack     # una sola, in questo progetto
+npx skills use leoforti/ai-skill@replica-pack             # stampa la skill da incollare, senza installare
+```
+
+Senza Node, o se vuoi toccare solo `~/.agents/skills/`:
 
 ```bash
 git clone https://github.com/leoforti/ai-skill.git
