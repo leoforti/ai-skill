@@ -5,11 +5,12 @@ import unittest
 
 from _load import ROOT
 
-SKILLS = ["replica-recon", "replica-architect", "replica-design", "replica-build",
+SKILLS = ["replica-pack", "replica-recon", "replica-architect", "replica-design", "replica-build",
           "replica-backend", "replica-test", "replica-diff", "replica-entrepreneur",
           "replica-brand", "replica-launch", "replica-deploy"]
-ABOUT = ("Eleven free Claude skills that clone any app: reverse-engineer it, rebuild it, "
-         "test it for bugs, then fix what its users hate. Free, MIT.")
+ABOUT = ("Twelve free skills that clone any app: reverse-engineer it, rebuild it, "
+         "test it for bugs, then fix what its users hate. Runs in Claude and in "
+         "Freebuff. Free, MIT.")
 
 
 def frontmatter(path):
@@ -20,7 +21,7 @@ def frontmatter(path):
 
 
 class Repo(unittest.TestCase):
-    def test_eleven_skill_folders_at_the_root(self):
+    def test_twelve_skill_folders_at_the_root(self):
         found = sorted(d for d in os.listdir(ROOT)
                        if os.path.isfile(os.path.join(ROOT, d, "SKILL.md")))
         self.assertEqual(found, sorted(SKILLS))
@@ -49,8 +50,8 @@ class Repo(unittest.TestCase):
             readme = " ".join(fh.read().split())
         self.assertTrue(readme.startswith("# The Replica skill"))
         for line in (
-            "Eleven Claude skills that clone any app. Free, MIT, no signup, no API key, "
-            "nothing to connect.",
+            "Eleven skills that clone any app, plus a twelfth that indexes them. Free, "
+            "MIT, no signup, no API key, nothing to connect.",
             "One reverse-engineers the app you want to clone. One rebuilds it. One tests it "
             "for bugs. And one is the Entrepreneur: it reads what the app's users hate and "
             "fixes it in yours, so you have an app you can sell.",
@@ -60,7 +61,8 @@ class Repo(unittest.TestCase):
         ):
             self.assertIn(line, readme)
         for s in SKILLS:
-            self.assertIn("`/%s`" % s, readme)
+            self.assertIn("`%s`" % s, readme)
+        self.assertIn("in Freebuff you ask for them by name", readme)
 
     def test_no_em_dashes_anywhere(self):
         bad = []

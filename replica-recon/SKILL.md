@@ -7,8 +7,25 @@ description: >-
   first step of the Replica pack. Use when the user says "clone this app",
   "reverse engineer X", "how does X work", "map out X", "what screens does X
   have", "I want to build my own version of X", "copy this app", or pastes an
-  app's URL or App Store link and wants to rebuild it.
+  app's URL or App Store link and wants to rebuild it. Trigger anche in
+  italiano: 'clona questa app', 'ricostruisci X', 'mappa le schermate
+  di X', 'come funziona X'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-recon/
+>     <project>/.agents/skills/replica-recon/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-recon
 
@@ -131,4 +148,4 @@ few weeks), L (a quarter), XL (rescope it). No promises of a perfect clone.
 
 `replica/recon.md` and `replica/features.csv`, then a five-line summary: the
 core loop, screen and flow counts, the three hardest parts, what is out of
-scope, and the next step: `/replica-architect`.
+scope, and the next step: the `replica-architect` skill.

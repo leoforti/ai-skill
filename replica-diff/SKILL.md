@@ -7,18 +7,34 @@ description: >-
   does not count against you. Two standard-library Python tools. Use when the
   user says "how close is my clone", "compare it to the original", "what's
   missing", "parity check", "diff the screens", "is it ready", or after
-  /replica-test.
+  the replica-test skill. Trigger anche in italiano: 'quanto è simile al
+  clone', 'cosa manca', 'score di parità', 'è pronto'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-diff/
+>     <project>/.agents/skills/replica-diff/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-diff
 
 Two tools in this folder, both standard-library Python, no installs:
 
 ```bash
-python3 parity.py replica/features.csv                         # feature parity + missing list
-python3 imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out diff-S07.png
-python3 imgdiff.py a.png b.png --json > replica/diffs/S07.json # for parity.py --visual
-python3 parity.py replica/features.csv --visual replica/diffs/*.json --markdown > replica/parity.md
+python parity.py replica/features.csv                         # feature parity + missing list
+python imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out diff-S07.png
+python imgdiff.py a.png b.png --json > replica/diffs/S07.json # for parity.py --visual
+python parity.py replica/features.csv --visual replica/diffs/*.json --markdown > replica/parity.md
 ```
 
 ## What parity means here
@@ -37,7 +53,7 @@ Make sure `replica/features.csv` is current: every row's `clone` column is
 `yes`, `partial` (with a note), `no`, or `skip` (with a reason). Then:
 
 ```bash
-python3 parity.py replica/features.csv
+python parity.py replica/features.csv
 ```
 
 It weights must 3, should 2, could 1, counts partial as half, leaves out
@@ -54,7 +70,7 @@ user's own account, saved in `replica/screens/`. The clone's go in
 `replica/clone-screens/`.
 
 ```bash
-python3 imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out replica/diffs/S07.png
+python imgdiff.py replica/screens/S07.png replica/clone-screens/S07.png --out replica/diffs/S07.png
 ```
 
 Layout mode (default) turns both into edge maps, cuts them into a grid, and
@@ -89,5 +105,5 @@ Give honest numbers. A clone at 62% is at 62%.
 ## Output
 
 `replica/parity.md`, the diff images, and the top five things to build next.
-Then `/replica-build` for the gaps, or `/replica-entrepreneur` if parity is
-there.
+Then the `replica-build` skill for the gaps, or `replica-entrepreneur` if
+parity is there.

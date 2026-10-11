@@ -8,8 +8,25 @@ description: >-
   positioning angle you can sell. Every quote is real, verbatim and linked.
   Use when the user says "what do people hate about X", "read the reviews",
   "how do I make mine better", "find the gap", "what features are missing",
-  "how do I position this", "make it sellable", or after /replica-diff.
+  "how do I position this", "make it sellable", or after the replica-diff
+  skill. Trigger anche in italiano: 'cosa odiano gli utenti', 'leggi le
+  recensioni', 'come posiziono questa app'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-entrepreneur/
+>     <project>/.agents/skills/replica-entrepreneur/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-entrepreneur
 
@@ -19,7 +36,7 @@ what the original's users hate, in their own words, and fixes it in yours.
 Tool in this folder:
 
 ```bash
-python3 reviews.py replica/reviews.csv --out replica/feedback.md
+python reviews.py replica/reviews.csv --out replica/feedback.md
 ```
 
 ## The rules, which are not negotiable
@@ -62,7 +79,7 @@ best fixes hide.
 ## Step 2: rank
 
 ```bash
-python3 reviews.py replica/reviews.csv --out replica/feedback.md
+python reviews.py replica/reviews.csv --out replica/feedback.md
 ```
 
 It sorts reviews into themes (`themes.json`, edit it for the app's category),
@@ -89,7 +106,7 @@ a trend.
 Pick the top 5 to 8 by evidence times how cheaply you can fix them. For each:
 what to build or change, size (S, M, L), which skill does it, and the
 evidence. Add each one to `replica/features.csv` as a row with `original` set
-to `no`. Pricing and billing complaints go to `/replica-launch`.
+to `no`. Pricing and billing complaints go to the `replica-launch` skill.
 
 ## Step 5: the angle
 
@@ -109,4 +126,4 @@ A factual comparison page is a legal question for a lawyer in your country.
 
 `replica/reviews.csv`, `replica/feedback.md`, `replica/fixes.md` (three
 lists, fix plan, angle), new rows in `features.csv`, and a summary that
-states the sample size. Next: `/replica-brand`.
+states the sample size. Next: the `replica-brand` skill.

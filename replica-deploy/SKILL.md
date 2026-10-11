@@ -7,8 +7,25 @@ description: >-
   domain and for email, Stripe live mode, OAuth redirects, monitoring, and
   mobile builds to TestFlight and Play. Use when the user says "deploy it",
   "ship it", "put it live", "connect my domain", "go to production",
-  "publish the app", or after /replica-launch.
+  "publish the app", or after the replica-launch skill. Trigger anche in
+  italiano: 'metti online', 'collega il mio dominio', 'vai in
+  produzione'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-deploy/
+>     <project>/.agents/skills/replica-deploy/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-deploy
 
@@ -19,8 +36,8 @@ Reads everything in `replica/`. Writes `replica/deploy.md` (the checklist in
 
 - **Nothing goes live without the user's go.** Show the preflight results and
   ask.
-- **The user buys and signs in.** Claude never buys a domain, enters a card,
-  types a password or pastes a live key. Claude writes the exact DNS records,
+- **The user buys and signs in.** You never buy a domain, enter a card,
+  type a password or paste a live key. You write the exact DNS records,
   env var names and commands; the user does the account steps.
 - **Not until it is rebranded.** The sweep must be clean. No exceptions.
 
@@ -30,15 +47,16 @@ Run every check and paste the results into `deploy.md`:
 
 ```bash
 npx playwright test                                                  # replica-test
-python3 ../replica-diff/parity.py replica/features.csv               # must-haves done
-python3 ../replica-brand/sweep.py . --config replica/brand.json      # exit 0: clean
-python3 ../replica-launch/listing.py replica/launch/listing.json     # if shipping to stores
+python ../replica-diff/parity.py replica/features.csv               # must-haves done
+python ../replica-brand/sweep.py . --config replica/brand.json      # exit 0: clean
+python ../replica-launch/listing.py replica/launch/listing.json     # if shipping to stores
 npm run build                                                        # production build passes
 ```
 
-(Paths are relative to wherever the pack is installed. Under
-`~/.claude/skills/` that is `~/.claude/skills/replica-diff/parity.py` and so
-on.)
+(Paths are relative to wherever the pack is installed. Installed for Freebuff
+in `~/.agents/skills/`, that means `~/.agents/skills/replica-diff/parity.py`
+and so on; cloned into a project, `.agents/skills/replica-diff/parity.py`.
+Run the Python tools with `python` on Windows, `python3` on macOS and Linux.)
 
 Plus by hand: no open S1 or S2 bugs, privacy policy and terms pages live
 (listing every processor), cookie banner if you use non-essential cookies in

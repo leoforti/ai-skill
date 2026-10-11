@@ -1,7 +1,7 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "replica-skill",
-  "description": "The Replica skill pack for Claude",
+  "description": "The Replica skill pack: clone any app, in Claude or in Freebuff",
   "owner": {
     "name": "Jake Schincariol",
     "url": "https://opusjake.ai"
@@ -9,10 +9,10 @@
   "plugins": [
     {
       "name": "replica-skill",
-      "description": "Eleven Claude skills that clone any app: recon, architecture, design, build, backend, test, parity diff, a review-reading Entrepreneur skill, brand, launch and deploy.",
+      "description": "Twelve skills that clone any app: recon, architecture, design, build, backend, test, parity diff, a review-reading Entrepreneur skill, brand, launch, deploy, and the pack index. The templates and Python tools stay with their skill.",
       "source": "./",
       "category": "productivity",
-      "homepage": "https://github.com/Jakeschincariol/replica-skill"
+      "homepage": "https://github.com/leoforti/ai-skill"
     }
   ]
 }

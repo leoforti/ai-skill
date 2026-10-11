@@ -7,15 +7,32 @@ description: >-
   flow, and orders the build as a thin vertical slice first. Use when the user
   says "plan the clone", "what stack should I use", "design the database",
   "write the schema", "plan the API", "architecture for my version of X", or
-  after /replica-recon finishes.
+  after the replica-recon skill finishes. Trigger anche in italiano:
+  'pianifica il clone', 'che stack uso', 'progetta il database',
+  "scrivi lo schema".
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-architect/
+>     <project>/.agents/skills/replica-architect/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-architect
 
 Reads `replica/recon.md` and `replica/features.csv`. Writes
 `replica/architecture.md` (template: architecture.md in this folder).
 
-If there is no recon map, stop and run `/replica-recon` first. Planning a
+If there is no recon map, stop and run the `replica-recon` skill first. Planning a
 clone from memory of what an app does is how you miss half of it.
 
 ## Step 1: the stack
@@ -112,4 +129,4 @@ Each milestone lists its screens (S-IDs), tables and routes.
 
 `replica/architecture.md`, the SQL in `replica/schema.sql` or as the first
 migration, and a summary: stack in one line, table count, route count, the
-three riskiest parts, and the next step: `/replica-design`.
+three riskiest parts, and the next step: the `replica-design` skill.

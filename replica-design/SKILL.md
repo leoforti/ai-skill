@@ -7,8 +7,25 @@ description: >-
   logos, icons, illustrations or licensed fonts. Includes a WCAG contrast
   checker. Use when the user says "match the design", "rebuild the design
   system", "get the colours and fonts", "make it look like X", "design tokens
-  for my clone", or after /replica-architect.
+  for my clone", or after the replica-architect skill. Trigger anche in
+  italiano: 'rifai il design system', 'prendi colori e font', 'fammi
+  uguale a X'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-design/
+>     <project>/.agents/skills/replica-design/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-design
 
@@ -17,7 +34,7 @@ Reads `replica/recon.md` and the screenshots in `replica/screens/`. Writes
 Tailwind mapping, and `replica/design/components.md`.
 
 ```bash
-python3 contrast.py replica/design/tokens.json     # every text pair, WCAG ratio
+python contrast.py replica/design/tokens.json     # every text pair, WCAG ratio
 ```
 
 ## The rules
@@ -60,7 +77,7 @@ Add a `pairs` list for every text and background combination the app uses,
 then:
 
 ```bash
-python3 contrast.py replica/design/tokens.json
+python contrast.py replica/design/tokens.json
 ```
 
 AA is the floor: 4.5:1 for body text, 3:1 for large text and for input
@@ -96,4 +113,4 @@ check.
 
 `tokens.json`, `tokens.css`, the Tailwind config, `components.md`, the
 primitives built, and a contrast report with zero AA failures. Next:
-`/replica-build`.
+the `replica-build` skill.

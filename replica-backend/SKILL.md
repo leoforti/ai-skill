@@ -6,8 +6,25 @@ description: >-
   integrations through official APIs only, plus a security checklist. Use when
   the user says "add login", "set up auth", "wire up the database", "add
   payments", "connect Stripe", "add Google Calendar", "send emails",
-  "backend for my clone", or when /replica-build is running on fake data.
+  "backend for my clone", or when the replica-build skill is running on
+  fake data. Trigger anche in italiano: 'aggiungi il login', 'collega
+  Stripe', 'fammi il backend'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-backend/
+>     <project>/.agents/skills/replica-backend/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-backend
 
@@ -19,10 +36,10 @@ Reads `replica/architecture.md`. Writes migrations and server code, and keeps
 - **Official, public APIs only, with the user's own keys.** Never call the
   original app's private endpoints, never reuse its OAuth client, never proxy
   through it.
-- **The user creates accounts and keys.** Claude never signs up for services,
-  never types a password, card or live key. The user creates the Stripe,
+- **The user creates accounts and keys.** You never sign up for services,
+  never type a password, card or live key. The user creates the Stripe,
   Supabase, Resend or Google Cloud project and puts keys in `.env.local`.
-  Claude writes `.env.example` with every variable name and no values.
+  You write `.env.example` with every variable name and no values.
 - **Test mode first.** Stripe test keys and test cards until replica-deploy.
 
 ## Auth
@@ -87,4 +104,4 @@ launch, which takes weeks. Start it early and write that in `backend.md`.
 
 Working auth, database, payments in test mode, email and the integrations,
 `.env.example`, `replica/backend.md` with the checklist ticked, feature
-matrix rows updated. Next: `/replica-test`.
+matrix rows updated. Next: the `replica-test` skill.

@@ -7,8 +7,24 @@ description: >-
   against the stores' limits and copycat rules. Use when the user says
   "landing page", "pricing", "how much should I charge", "App Store
   listing", "store screenshots", "launch plan", "Product Hunt", or after
-  /replica-brand.
+  the replica-brand skill. Trigger anche in italiano: 'landing page',
+  'prezzo', 'listing App Store', 'piano di lancio'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-launch/
+>     <project>/.agents/skills/replica-launch/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-launch
 
@@ -17,7 +33,7 @@ and `replica/brand.json`. Writes `replica/launch/`: `landing.md`,
 `pricing.md`, `listing.json`, `launch-plan.md`.
 
 ```bash
-python3 listing.py replica/launch/listing.json      # limits, claims, the original's name
+python listing.py replica/launch/listing.json      # limits, claims, the original's name
 ```
 
 Start from `listing.example.json` in this folder.
@@ -68,7 +84,7 @@ Copy in the brand voice. Run replica-design's contrast check on the page.
 Fill `listing.json`, then:
 
 ```bash
-python3 listing.py replica/launch/listing.json
+python listing.py replica/launch/listing.json
 ```
 
 It checks App Store limits (name 30, subtitle 30, promotional text 170,
@@ -97,4 +113,4 @@ leads with the fix, and the first 10 users to talk to by hand.
 ## Output
 
 `replica/launch/` complete, the landing page built, `listing.py` passing.
-Next: `/replica-deploy`.
+Next: the `replica-deploy` skill.

@@ -6,9 +6,25 @@ description: >-
   end-to-end tests where possible, a browser click-through where not, and bug
   reports in a fixed format with severity, steps and evidence. Use when the
   user says "test my clone", "find bugs", "QA this", "click through
-  everything", "write e2e tests", "does it work", or after /replica-build or
-  /replica-backend.
+  everything", "write e2e tests", "does it work", or after the
+  replica-build or replica-backend skills. Trigger anche in italiano:
+  'testa il mio clone', 'trova i bug', 'scrivi i test e2e'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-test/
+>     <project>/.agents/skills/replica-test/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-test
 
@@ -84,4 +100,4 @@ it pass, keep the test. Re-run the whole suite after each batch. Update
 
 `test-plan.md`, the specs, `bugs.md`, and a summary: cases run, passed,
 failed, bugs by severity, fixed so far. Ship nothing with an open S1. Next:
-`/replica-diff`.
+the `replica-diff` skill.

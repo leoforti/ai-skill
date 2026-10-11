@@ -6,8 +6,25 @@ description: >-
   ticking off the feature matrix as it goes. Writes every line fresh, never
   the original's code, assets or copy. Use when the user says "build the
   clone", "build screen S07", "start building", "rebuild this screen",
-  "implement the booking page", or after /replica-design.
+  "implement the booking page", or after the replica-design skill.
+  Trigger anche in italiano: 'costruisci il clone', 'fai la schermata
+  S07', 'inizia a costruire'.
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-build/
+>     <project>/.agents/skills/replica-build/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-build
 
@@ -84,4 +101,4 @@ calls. Then build your own version of the behaviour.
 
 Screens built, the feature matrix updated, screenshots saved, and a summary:
 screens done of total, must-haves done of total, what is next. Then
-`/replica-backend` if the data layer is still fake, else `/replica-test`.
+the `replica-backend` skill if the data layer is still fake, else `replica-test`.

@@ -1,7 +1,7 @@
 # The Replica skill
 
-Eleven Claude skills that clone any app. Free, MIT, no signup, no API key,
-nothing to connect.
+Eleven skills that clone any app, plus a twelfth that indexes them. Free, MIT,
+no signup, no API key, nothing to connect.
 
 One reverse-engineers the app you want to clone. One rebuilds it. One tests it
 for bugs. And one is the Entrepreneur: it reads what the app's users hate and
@@ -16,7 +16,48 @@ listing, and put it live on your domain.
 clean-room style. Not its code, its logo, its copy or its content. The
 fine print is at the bottom, and the skills enforce it.
 
+> **This fork** runs the pack in Freebuff as well as in Claude. Skills are
+> invoked by name instead of by slash command, every template and tool stays in
+> its own skill folder, `replica-pack` carries the order and the handoffs,
+> `install.py` copies the pack into a skills folder the client reads, and
+> `tools/check_skills.py` re-checks every skill against the client's own size
+> and naming limits. Italian section: [Usare il pacchetto con
+> Freebuff](#usare-il-pacchetto-con-freebuff).
+
 ## Install
+
+### Freebuff
+
+The client discovers a skill from a folder named `<skill>/SKILL.md`, at
+`<project>/.agents/skills/` or `<project>/.claude/skills/` for one project, and
+`~/.agents/skills/` or `~/.claude/skills/` for every project. The Discover tab
+installs into `~/.agents/skills/` too, so that is what this script uses:
+
+```bash
+git clone https://github.com/leoforti/ai-skill.git
+cd ai-skill
+python install.py                 # every project, then open a new thread
+python install.py --project .     # or just this project
+python install.py --dry-run       # what it would copy, copy nothing
+python install.py --remove        # take it back out
+```
+
+Skills are read when a thread starts: open a new thread (or restart the client)
+and the pack is there. Settings - Skills also takes a skill by hand (Name,
+Description, Instructions); the limits are a name matching
+`^[a-z0-9][a-z0-9-]{0,63}$`, a description of at most 1000 characters and
+instructions of at most 50000. A skill created that way has no sibling files,
+so paste the templates it needs into the instructions, or use the installer
+above and keep them as files.
+
+Run the tools with `python` on Windows and `python3` on macOS and Linux:
+
+```bash
+python tools/check_skills.py      # every skill against the client's limits
+python -m unittest discover -s tests -v
+```
+
+### Claude
 
 Paste this into Claude:
 
@@ -49,26 +90,31 @@ method works.
 
 The tools need Python 3.8 or newer. Nothing to pip install.
 
-## The eleven
+## The twelve
 
-| command | what it does |
+| skill | what it does |
 | --- | --- |
-| `/replica-recon` | Reverse-engineers any app: screens, flows, components, data model. From public pages, screenshots, store listings and your own account. |
-| `/replica-architect` | Plans the stack, database schema and API for your clone. |
-| `/replica-design` | Rebuilds the design system: colours, type, spacing, components. As tokens, with your own assets. |
-| `/replica-build` | Rebuilds the app screen by screen from the recon map. |
-| `/replica-backend` | Auth, database, payments and integrations. |
-| `/replica-test` | Clicks through every flow and tests it for bugs. |
-| `/replica-diff` | Compares your clone against the original. A parity score and what is missing. |
-| `/replica-entrepreneur` | Reads what the app's users hate in real reviews and turns it into fixes and a positioning angle. |
-| `/replica-brand` | Names and rebrands your version so it is yours. |
-| `/replica-launch` | Landing page, pricing and App Store listing. |
-| `/replica-deploy` | Ships it live on your own domain. |
+| `replica-pack` | The index: the order, who writes and who reads what in `replica/`, and the rules that hold across the whole pack. |
+| `replica-recon` | Reverse-engineers any app: screens, flows, components, data model. From public pages, screenshots, store listings and your own account. |
+| `replica-architect` | Plans the stack, database schema and API for your clone. |
+| `replica-design` | Rebuilds the design system: colours, type, spacing, components. As tokens, with your own assets. |
+| `replica-build` | Rebuilds the app screen by screen from the recon map. |
+| `replica-backend` | Auth, database, payments and integrations. |
+| `replica-test` | Clicks through every flow and tests it for bugs. |
+| `replica-diff` | Compares your clone against the original. A parity score and what is missing. |
+| `replica-entrepreneur` | Reads what the app's users hate in real reviews and turns it into fixes and a positioning angle. |
+| `replica-brand` | Names and rebrands your version so it is yours. |
+| `replica-launch` | Landing page, pricing and App Store listing. |
+| `replica-deploy` | Ships it live on your own domain. |
+
+In Claude Code those are `/replica-recon` and so on; in Freebuff you ask for
+them by name, and `replica-pack` tells you which one comes next.
 
 ## How to use it
 
 Run them in order. Each one reads what the last one wrote, in a `replica/`
-folder in your project.
+folder in your project. The handoff is you saying "next": no skill runs another
+on its own.
 
 ```
 recon -> architect -> design -> build -> backend -> test -> diff -> entrepreneur -> brand -> launch -> deploy
@@ -77,43 +123,43 @@ recon -> architect -> design -> build -> backend -> test -> diff -> entrepreneur
 An example: cloning a scheduling app, the kind where you share a link and
 people book a time with you.
 
-1. **`/replica-recon`** with the app's URL. It reads the help center, the
+1. **replica-recon** with the app's URL. It reads the help center, the
    pricing page, the store listing and public walkthroughs, and you click
    through your own account with it. Out comes `replica/recon.md`: 18
    screens, 7 flows (guest books a meeting, host sets availability, guest
    reschedules...), the components, an inferred data model (users, event
    types, availability, bookings) and `features.csv`. The partner
    marketplace is marked out of scope: that is their network, not a feature.
-2. **`/replica-architect`** picks Next.js, Postgres, Stripe and Resend, writes
+2. **replica-architect** picks Next.js, Postgres, Stripe and Resend, writes
    the schema (with a constraint so two guests can never book the same slot)
    and orders the build: the booking flow end to end first.
-3. **`/replica-design`** measures the screenshots into tokens: colour roles,
+3. **replica-design** measures the screenshots into tokens: colour roles,
    type scale, 8px spacing, the date picker and slot button specs. Open
    icons, an open font, your own words.
-4. **`/replica-build`** builds the shell, then the booking flow, then every
+4. **replica-build** builds the shell, then the booking flow, then every
    screen with all its states, ticking off `features.csv` as it goes.
-5. **`/replica-backend`** adds sign up, Google Calendar through Google's own
+5. **replica-backend** adds sign up, Google Calendar through Google's own
    API with your keys, Stripe for paid bookings, reminder emails.
-6. **`/replica-test`** writes a test plan from the 7 flows, Playwright specs
+6. **replica-test** writes a test plan from the 7 flows, Playwright specs
    for the happy paths and edge cases (time zones, a slot taken mid-booking,
    double submit), and logs bugs by severity until no S1 or S2 is open.
-7. **`/replica-diff`** scores it. Features 86, all must-haves done, booking
+7. **replica-diff** scores it. Features 86, all must-haves done, booking
    page layout 91. Missing: round-robin for teams, the website embed.
-8. **`/replica-entrepreneur`** reads 140 real reviews across the App Store,
+8. **replica-entrepreneur** reads 140 real reviews across the App Store,
    G2, Capterra and Reddit. Top complaints: per-seat price jumps, no text
    reminders, guests confused by time zones. Each with counts and linked
    quotes. Fix plan: flat pricing, SMS reminders, a time zone confirm step.
    Angle: booking links for small teams that hate per-seat pricing.
-9. **`/replica-brand`** names it (with the trademark and domain checks to
+9. **replica-brand** names it (with the trademark and domain checks to
    run), gives it a new palette, a logo brief and a voice, then sweeps the
    codebase until nothing of the original is left.
-10. **`/replica-launch`** writes the landing page around the angle, sets
+10. **replica-launch** writes the landing page around the angle, sets
     pricing against the original's public page, and lints the store listing.
-11. **`/replica-deploy`** runs the preflight (tests, parity, sweep, listing),
+11. **replica-deploy** runs the preflight (tests, parity, sweep, listing),
     sets up production, gives you the DNS records for your domain, and ships
     it when you say go.
 
-You can also run any one on its own. `/replica-entrepreneur` on an app you
+You can also run any one on its own. **replica-entrepreneur** on an app you
 are only thinking about cloning is a good way to find out if you should.
 
 ## The tools
@@ -121,13 +167,17 @@ are only thinking about cloning is a good way to find out if you should.
 Six of them, all standard-library Python. None touch the network.
 
 ```bash
-python3 replica-diff/imgdiff.py original.png clone.png --out diff.png   # layout diff, ignores colour
-python3 replica-diff/parity.py replica/features.csv                     # parity score + missing list
-python3 replica-entrepreneur/reviews.py replica/reviews.csv             # what users hate, ranked, linked
-python3 replica-design/contrast.py replica/design/tokens.json           # WCAG contrast on your tokens
-python3 replica-brand/sweep.py . --avoid "Original App"                 # anything of the original left?
-python3 replica-launch/listing.py replica/launch/listing.json           # store limits + copycat checks
+python replica-diff/imgdiff.py original.png clone.png --out diff.png   # layout diff, ignores colour
+python replica-diff/parity.py replica/features.csv                     # parity score + missing list
+python replica-entrepreneur/reviews.py replica/reviews.csv             # what users hate, ranked, linked
+python replica-design/contrast.py replica/design/tokens.json           # WCAG contrast on your tokens
+python replica-brand/sweep.py . --avoid "Original App"                 # anything of the original left?
+python replica-launch/listing.py replica/launch/listing.json           # store limits + copycat checks
 ```
+
+On macOS and Linux the binary is usually `python3`; the commands above work
+either way, and inside a skill the tools are called relative to that skill's
+own folder.
 
 **`imgdiff.py`** reads PNGs with no libraries, turns both screenshots into
 edge maps and compares where things are, so your new colours do not count
@@ -150,7 +200,9 @@ the title, wasted keyword characters, and the original's name anywhere in
 your listing.
 
 ```bash
-python3 -m unittest discover -s tests -v
+python -m unittest discover -s tests -v
+python tools/check_skills.py             # this fork: the skills against the client's limits
+python install.py --dry-run              # this fork: what an install would copy
 ```
 
 ## Fine print
@@ -167,27 +219,28 @@ account's terms forbid using it to build a competitor, it says so and sticks
 to public sources.
 
 **It always rebrands before launch.** New name, new palette, new logo, new
-words. `/replica-deploy` will not ship until the sweep is clean.
+words. **replica-deploy** will not ship until the sweep is clean.
 
 **"Clone any app" means the features and the flow.** Not the content, the
 network or the licences an app owns. You can rebuild a music app's player,
 playlists and sharing. You cannot clone its catalogue.
 
 **No guarantee of a "perfect" clone.** Results depend on how complex the app
-is. A booking tool is weeks. A spreadsheet engine is not. `/replica-recon`
-sizes it honestly before you start, and `/replica-diff` gives you a real
+is. A booking tool is weeks. A spreadsheet engine is not. **replica-recon**
+sizes it honestly before you start, and **replica-diff** gives you a real
 number, not a vibe.
 
 **The Entrepreneur never makes things up.** No invented reviews, quotes or
 numbers. Every claim has a link, and the sample size is stated.
 
-**Check before you sell.** Run the trademark checks `/replica-brand` lists,
+**Check before you sell.** Run the trademark checks **replica-brand** lists,
 read the terms of anything you used, and talk to a lawyer before launch if
 there is money on the line. This is not legal advice.
 
 ## Files
 
 ```
+replica-pack/          SKILL.md (the index and the handoffs)
 replica-recon/         SKILL.md, recon-map.md, features.csv (the matrix template)
 replica-architect/     SKILL.md, architecture.md
 replica-design/        SKILL.md, tokens.json, contrast.py
@@ -199,11 +252,52 @@ replica-entrepreneur/  SKILL.md, reviews.py, themes.json
 replica-brand/         SKILL.md, sweep.py
 replica-launch/        SKILL.md, listing.py, listing.example.json
 replica-deploy/        SKILL.md, preflight.md
+install.py             this fork: copies the pack into a skills folder
+tools/                 this fork: check_skills.py, the limit checker
 tests/                 the tests for every tool
 ```
 
 Your own files live in `replica/` in your project. The skills read each
 other's.
+
+## Usare il pacchetto con Freebuff
+
+Freebuff non ha gli slash command: una skill si chiama per nome, e il client la
+trova dalla cartella in cui sta. Ogni cartella `replica-*/` di questo repo è
+una skill intera: `SKILL.md` più i suoi template e i suoi tool.
+
+Installazione, la via più corta:
+
+```bash
+git clone https://github.com/leoforti/ai-skill.git
+cd ai-skill
+python install.py                 # copia in ~/.agents/skills, per tutti i progetti
+python install.py --project .     # oppure solo nel progetto in cui sei
+python install.py --list          # cosa c'è già dentro
+python install.py --remove        # per togliere tutto
+```
+
+`install.py` copia ogni cartella `replica-*` in una cartella che il client
+legge: `~/.agents/skills/` (tutti i progetti) oppure `<progetto>/.agents/skills/`
+(quel progetto). Il client legge le skill all'apertura di un thread, quindi
+dopo l'installazione apri un thread nuovo: le dodici skill compaiono da sole e
+le richiami per nome (`replica-recon`, `replica-diff`, ...).
+
+Tre cose da sapere:
+
+- **L'handoff è manuale.** Nessuna skill lancia la successiva. La mappa, con
+  l'ordine e chi scrive e chi legge cosa in `replica/`, è `replica-pack`.
+- **I tool girano con `python`.** Su Windows `python3` è lo stub del Microsoft
+  Store che apre il negozio; `python` è l'interprete vero. Su macOS e Linux è
+  il contrario.
+- **Niente dipendenze.** I sei tool Python usano solo la libreria standard.
+
+Se preferisci crearle a mano da Settings - Skills - Create, i limiti del client
+sono: nome `^[a-z0-9][a-z0-9-]{0,63}$` che deve combaciare con la cartella,
+descrizione fino a 1000 caratteri, istruzioni fino a 50000. Una skill creata
+così non ha file accanto, quindi i template vanno incollati nel campo
+Instructions invece che letti dalla cartella. `python tools/check_skills.py`
+ricontrolla tutto dopo una modifica.
 
 ## Credit
 

@@ -7,8 +7,25 @@ description: >-
   finds anything of the original left in the codebase. Use when the user says
   "name my app", "rebrand the clone", "make it mine", "pick a name and
   colours", "logo brief", "brand voice", "check for leftovers", or after
-  /replica-entrepreneur. Always runs before /replica-launch.
+  the replica-entrepreneur skill. Always runs before replica-launch.
+  Trigger anche in italiano: 'dai un nome alla mia app', 'ribrandizza il
+  clone', "controlla che non resti niente dell'originale".
 ---
+
+> Freebuff note (added in this fork; the original is a Claude skill). There is
+> no slash command here: this skill is invoked by name, and that name has to
+> match the folder it sits in. Its support files travel with it, so copy or
+> install the whole folder, never the SKILL.md alone. For Freebuff that folder
+> is the first of these for a Discover install available to every project, the
+> second when the pack is cloned into one project:
+>
+>     ~/.agents/skills/replica-brand/
+>     <project>/.agents/skills/replica-brand/
+>
+> Run the Python tools with `python` on Windows, `python3` on macOS and Linux.
+> The handoff between the eleven skills is manual: the order, and who writes
+> and reads what, is in the `replica-pack` skill. End this skill by naming the
+> next one; never claim a later skill's output exists before it has run.
 
 # replica-brand
 
@@ -18,8 +35,8 @@ between "a clone" and "your app".
 Tool in this folder:
 
 ```bash
-python3 sweep.py . --avoid "Original Name,Its Company" --domains original.com --colors "#006bff"
-python3 sweep.py . --config replica/brand.json        # same, from the brand file
+python sweep.py . --avoid "Original Name,Its Company" --domains original.com --colors "#006bff"
+python sweep.py . --config replica/brand.json        # same, from the brand file
 ```
 
 Writes `replica/brand.md` and `replica/brand.json` (`avoid`, `domains`,
@@ -63,7 +80,7 @@ Pick a primary brand hue from a different family than the original's (if
 theirs is blue, yours is not a nearby blue). Then:
 
 ```bash
-python3 ../replica-design/contrast.py replica/design/tokens.json
+python ../replica-design/contrast.py replica/design/tokens.json
 ```
 
 Zero AA failures. Add the original's brand colours to `brand.json` so the
@@ -94,7 +111,7 @@ error) in that voice. All fresh, none echoing the original's phrasing.
 Replace every placeholder name, colour and string. Then:
 
 ```bash
-python3 sweep.py . --config replica/brand.json
+python sweep.py . --config replica/brand.json
 ```
 
 It searches file contents and file names for the original's name (also inside
@@ -107,4 +124,4 @@ the page titles, the email templates, the OG image, the app icon.
 
 `replica/brand.md` (name with checks, palette, logo brief, voice),
 `replica/brand.json`, updated tokens, rewritten strings, and a clean sweep.
-Next: `/replica-launch`.
+Next: the `replica-launch` skill.
