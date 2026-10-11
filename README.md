@@ -29,10 +29,13 @@ fine print is at the bottom, and the skills enforce it.
 ### Freebuff
 
 A skill is a folder with a `SKILL.md` in it and its templates and Python tools
-beside it. Freebuff reads those folders from `<project>/.agents/skills/` or
-`<project>/.claude/skills/` for the project it is working in, and from
-`~/.agents/skills/` or `~/.claude/skills/` for every project (`.agents` wins
-where both hold the same name).
+beside it. For the thread it is running, Freebuff reads the folders of the
+project it is working in: `<project>/.agents/skills/` or
+`<project>/.claude/skills/` (`.agents` wins where both hold the same name).
+The user-level folders, `~/.agents/skills/` and `~/.claude/skills/`, are the
+ones a `-g` install writes, and this build does not advertise them to the model
+in a thread: a pack installed only there stays out of the thread's context. To
+have the skills picked up on their own, install into the project.
 
 With the skills CLI, from anywhere:
 
@@ -303,10 +306,14 @@ python install.py --remove        # per togliere tutto
 ```
 
 `install.py` copia ogni cartella `replica-*` in una cartella che il client
-legge: `~/.agents/skills/` (tutti i progetti) oppure `<progetto>/.agents/skills/`
-(quel progetto). Il client legge le skill all'apertura di un thread, quindi
-dopo l'installazione apri un thread nuovo: le dodici skill compaiono da sole e
-le richiami per nome (`replica-recon`, `replica-diff`, ...).
+legge. Attenzione a quale: il thread legge le cartelle del **progetto** su cui
+sta lavorando, `<progetto>/.agents/skills/` o `<progetto>/.claude/skills/`, e
+quelle le legge sempre. Le cartelle utente, `~/.agents/skills/` (quella che
+scrive `-g`) e `~/.claude/skills/`, in questa build non vengono annunciate al
+modello dentro un thread: un pacchetto installato solo lì resta fuori dal
+contesto. Per farsele trovare da sole, installa nel progetto; le skill si
+leggono all'apertura di un thread, quindi dopo l'installazione aprine uno
+nuovo e le richiami per nome (`replica-recon`, `replica-diff`, ...).
 
 Tre cose da sapere:
 
